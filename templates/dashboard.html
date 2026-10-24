@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="welcome">
+  <div><h2>مرحباً بك في مكتب الدعم الفني</h2><p>سجّل الطلبات، تابع إنجازها، واحتفظ بسجل واضح لكل إجراء.</p></div>
+  <a class="button white-button" href="/tickets/new">＋ تسجيل طلب جديد</a>
+</section>
+<section class="stats">
+  <article class="stat-card"><div class="stat-top"><span>إجمالي الطلبات</span><span>▤</span></div><h2>{{ total_count }}</h2><small>جميع الطلبات المسجلة</small></article>
+  <article class="stat-card"><div class="stat-top"><span>تحتاج متابعة</span><span>◷</span></div><h2>{{ open_count }}</h2><small>جديدة أو قيد التنفيذ</small></article>
+  <article class="stat-card"><div class="stat-top"><span>بانتظار رد</span><span>◌</span></div><h2>{{ waiting_count }}</h2><small>طلبات متوقفة بانتظار جهة أخرى</small></article>
+  <article class="stat-card"><div class="stat-top"><span>مكتملة</span><span>✓</span></div><h2>{{ resolved_count }}</h2><small>طلبات تم حلها</small></article>
+</section>
+<section class="panel">
+  <div class="panel-heading"><div><h2>أحدث الطلبات</h2><p>آخر الطلبات المسجلة في النظام.</p></div><a class="button secondary-button" href="/tickets">عرض الكل</a></div>
+  {% if has_tickets %}
+  <div class="table-wrap"><table><thead><tr><th>رقم الطلب</th><th>الموضوع</th><th>مقدم الطلب</th><th>الإدارة</th><th>الأولوية</th><th>الحالة</th><th>تاريخ التسجيل</th></tr></thead><tbody>
+  {% for ticket in tickets %}<tr class="ticket-row"><td><a class="ticket-number" href="/tickets/{{ ticket.id }}">{{ ticket.number }}</a></td><td><a class="table-title" href="/tickets/{{ ticket.id }}">{{ ticket.title }}</a></td><td>{{ ticket.requester }}</td><td>{{ ticket.department }}</td><td><span class="priority {{ ticket.priority_class }}">{{ ticket.priority_label }}</span></td><td><span class="status {{ ticket.status_class }}">{{ ticket.status_label }}</span></td><td class="date-cell">{{ ticket.created_at }}</td></tr>{% endfor %}
+  </tbody></table></div>
+  {% else %}
+  <div class="empty-state"><div class="empty-icon">▤</div><h3>لا توجد طلبات بعد</h3><p>ابدأ بتسجيل أول طلب دعم فني.</p><a class="button" href="/tickets/new">تسجيل طلب جديد</a></div>
+  {% endif %}
+</section>
+{% endblock %}

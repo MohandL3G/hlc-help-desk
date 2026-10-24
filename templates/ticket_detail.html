@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="detail-heading screen-only"><div><a class="text-link" href="/tickets">← العودة إلى جميع الطلبات</a><div class="ticket-title-line"><h2>{{ ticket.title }}</h2><span class="status {{ ticket.status_class }}">{{ ticket.status_label }}</span></div><p class="subline"><span class="ticket-number">{{ ticket.number }}</span><span>•</span><span>تاريخ التسجيل: {{ ticket.created_at }}</span></p></div><button class="button secondary-button" type="button" onclick="window.print()">⎙ طباعة محضر الخدمة</button></div>
+<section class="detail-grid screen-only">
+  <div class="panel detail-panel">
+    <div class="panel-heading"><div><h2>بيانات الطلب</h2><p>معلومات أساسية عن البلاغ.</p></div><span class="priority {{ ticket.priority_class }}">{{ ticket.priority_label }}</span></div>
+    <dl class="detail-list"><div><dt>مقدم الطلب</dt><dd>{{ ticket.requester }}</dd></div><div><dt>الإدارة / القسم</dt><dd>{{ ticket.department }}</dd></div><div><dt>التصنيف</dt><dd>{{ ticket.category_label }}</dd></div><div><dt>طريقة الاستلام</dt><dd>{{ ticket.channel_label }}</dd></div><div><dt>وقت آخر تحديث</dt><dd>{{ ticket.updated_at }}</dd></div></dl>
+    <div class="description-block"><h3>وصف الطلب</h3><p>{{ ticket.description }}</p></div>
+    {% if ticket.resolution_note != "" %}<div class="resolution-block"><h3>ملاحظة الحل / الإجراء الأخير</h3><p>{{ ticket.resolution_note }}</p></div>{% endif %}
+  </div>
+  <div class="panel ticket-update">
+    <div class="panel-heading"><div><h2>تحديث الطلب</h2><p>كل تحديث يُضاف إلى سجل الأحداث.</p></div></div>
+    <form action="/tickets/{{ ticket.id }}/status" method="post" class="stacked-form"><label class="field"><span>الحالة الجديدة</span><select name="status"><option value="new" {% if ticket.status == "new" %}selected{% endif %}>جديد</option><option value="in_progress" {% if ticket.status == "in_progress" %}selected{% endif %}>قيد التنفيذ</option><option value="waiting" {% if ticket.status == "waiting" %}selected{% endif %}>بانتظار رد</option><option value="resolved" {% if ticket.status == "resolved" %}selected{% endif %}>مكتمل</option></select></label><label class="field"><span>ملاحظة الإجراء</span><textarea name="note" rows="4" maxlength="2000" placeholder="ماذا فعلت؟ من تم التواصل معه؟ ما النتيجة؟"></textarea></label><button class="button" type="submit">حفظ التحديث</button></form>
+    <div class="mini-hint">لا يوجد حذف من الواجهة في هذه النسخة. التغييرات المسجلة تظهر في سجل الأحداث أدناه.</div>
+  </div>
+</section>
+<section class="panel events-panel screen-only"><div class="panel-heading"><div><h2>سجل الأحداث</h2><p>تسلسل ما تم تسجيله على الطلب.</p></div></div>
+  {% if has_events %}<div class="timeline">{% for event in events %}<article class="timeline-item"><span class="timeline-dot"></span><div class="timeline-content"><div class="timeline-top"><strong>{{ event.label }}</strong><time>{{ event.created_at }}</time></div><p>{{ event.details }}</p><small>{{ event.actor }}</small></div></article>{% endfor %}</div>{% else %}<p class="empty-inline">لا توجد أحداث مسجلة.</p>{% endif %}
+</section>
+<section class="print-only printable-record">
+  <div class="receipt-header"><div class="receipt-mark">IT</div><div><h1>محضر طلب خدمة تقنية معلومات</h1><p>سجل داخلي لإثبات الطلب والإجراء المتخذ</p></div><strong>{{ ticket.number }}</strong></div>
+  <div class="receipt-meta"><div><span>تاريخ التسجيل</span><strong>{{ ticket.created_at }}</strong></div><div><span>آخر تحديث</span><strong>{{ ticket.updated_at }}</strong></div><div><span>الحالة</span><strong>{{ ticket.status_label }}</strong></div></div>
+  <h2>بيانات مقدم الطلب</h2><div class="receipt-grid"><div><span>الاسم</span><strong>{{ ticket.requester }}</strong></div><div><span>الإدارة / القسم</span><strong>{{ ticket.department }}</strong></div><div><span>طريقة الاستلام</span><strong>{{ ticket.channel_label }}</strong></div><div><span>التصنيف والأولوية</span><strong>{{ ticket.category_label }} — {{ ticket.priority_label }}</strong></div></div>
+  <h2>موضوع الطلب</h2><div class="receipt-box"><strong>{{ ticket.title }}</strong><p>{{ ticket.description }}</p></div>
+  <h2>الإجراء والنتيجة</h2><div class="receipt-box resolution-print">{% if ticket.resolution_note != "" %}{{ ticket.resolution_note }}{% else %}............................................................................................................................<br><br>............................................................................................................................{% endif %}</div>
+  <p class="receipt-attestation">أقرّ بأن بيانات الطلب والإجراء المبين أعلاه قد تمت مراجعتها، ويُستكمل التوقيع وفق إجراءات الشركة المعتمدة.</p>
+  <div class="signature-grid"><div><span>اسم / توقيع مقدم الطلب</span><div></div><small>التاريخ: ____ / ____ / ______</small></div><div><span>اسم / توقيع موظف تقنية المعلومات</span><div></div><small>التاريخ: ____ / ____ / ______</small></div></div>
+  <footer class="receipt-footer">رقم الطلب: {{ ticket.number }} — طُبع من نظام مكتب الدعم الفني.</footer>
+</section>
+{% endblock %}

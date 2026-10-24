@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="form-intro"><div><h2>تسجيل طلب جديد</h2><p>سجّل طلباً جديداً حتى لو وصل عبر ورقة أو الهاتف أو واتساب.</p></div><a class="text-link" href="/tickets">العودة إلى الطلبات ←</a></section>
+<form class="panel ticket-form" action="/tickets" method="post">
+  <div class="form-section-title"><span>١</span><div><h3>بيانات مقدم الطلب</h3><p>من طلب الخدمة ومن أي إدارة؟</p></div></div>
+  <div class="form-grid"><label class="field"><span>اسم مقدم الطلب <b>*</b></span><input name="requester" required maxlength="120" placeholder="الاسم الكامل"></label><label class="field"><span>الإدارة / القسم <b>*</b></span><input name="department" required maxlength="120" placeholder="مثال: الإدارة المالية"></label></div>
+  <div class="form-section-title"><span>٢</span><div><h3>تفاصيل المشكلة أو الخدمة</h3><p>اكتب وصفاً واضحاً يمكن الرجوع إليه لاحقاً.</p></div></div>
+  <label class="field"><span>موضوع الطلب <b>*</b></span><input name="title" required maxlength="180" placeholder="مثال: تعطل الطابعة في مكتب الحسابات"></label>
+  <label class="field"><span>وصف الطلب والإجراءات المطلوبة <b>*</b></span><textarea name="description" rows="5" required maxlength="5000" placeholder="ما المشكلة؟ متى بدأت؟ ما الجهاز أو النظام المتأثر؟"></textarea></label>
+  <div class="form-grid three-cols"><label class="field"><span>التصنيف</span><select name="category"><option value="hardware">أجهزة ومعدات</option><option value="software">برامج وتطبيقات</option><option value="network">شبكة وإنترنت</option><option value="account">حسابات وصلاحيات</option><option value="other">أخرى</option></select></label><label class="field"><span>الأولوية</span><select name="priority"><option value="normal">عادي</option><option value="high">مرتفع</option><option value="urgent">عاجل</option></select></label><label class="field"><span>طريقة استلام الطلب</span><select name="channel"><option value="portal">بوابة النظام</option><option value="paper">ورقي</option><option value="phone">هاتف / حضور شخصي</option><option value="whatsapp">واتساب</option></select></label></div>
+  <div class="form-footer"><p><b>*</b> الحقول المطلوبة. سيُنشأ رقم طلب تلقائي بعد الحفظ.</p><div class="form-actions"><a class="button button-muted" href="/tickets">إلغاء</a><button class="button" type="submit">حفظ الطلب</button></div></div>
+</form>
+{% endblock %}

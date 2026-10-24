@@ -1,0 +1,17 @@
+services:
+  it-desk:
+    build: .
+    container_name: it-desk-prototype
+    restart: unless-stopped
+    environment:
+      PORT: "3000"
+      DB_PATH: /data/tickets.db
+      RUST_LOG: info
+    # Bound to localhost; put behind your HTTPS reverse proxy after hardening.
+    ports:
+      - "3800:3000"
+    volumes:
+      - it-desk-data:/data
+
+volumes:
+  it-desk-data:

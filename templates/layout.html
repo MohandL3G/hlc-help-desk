@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f6f9">
+  <title>{{ page_title }} — مكتب الدعم الفني</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/theme-pre.js"></script>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 7.5A2.5 2.5 0 0 1 7.5 5H20v14H7.5A2.5 2.5 0 0 1 5 16.5v-9Z" stroke="currentColor" stroke-width="1.8"/><path d="M5 8h3M5 12h3M5 16h3M11 9h5M11 13h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <h2>مكتب الدعم الفني</h2>
+        <p>نظام متابعة الطلبات</p>
+      </div>
+    </div>
+    <div class="menu-title">القائمة الرئيسية</div>
+    <nav class="nav-links">
+      <a class="menu {% if active_page == "dashboard" %}active{% endif %}" href="/">▦ لوحة التحكم</a>
+      <a class="menu {% if active_page == "tickets" %}active{% endif %}" href="/tickets">▤ جميع الطلبات</a>
+      <a class="menu {% if active_page == "new" %}active{% endif %}" href="/tickets/new">＋ تسجيل طلب جديد</a>
+    </nav>
+    <div class="sidebar-footer">منظومة طلبات تقنية المعلومات<br>نسخة أولية للتطوير</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>{{ page_title }}</h1>
+        <p>{{ today }}</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="تغيير المظهر">◐ المظهر</button>
+        <div class="user-badge">
+          <span class="avatar">IT</span>
+          <div class="user-meta"><strong>فريق تقنية المعلومات</strong><small>نسخة تجريبية</small></div>
+        </div>
+      </div>
+    </header>
+    <div class="prototype-notice no-print"><strong>نسخة تجريبية</strong><span>لا تُدخل بيانات حقيقية ولا تنشرها للموظفين قبل إضافة تسجيل الدخول والصلاحيات والنسخ الاحتياطي.</span></div>
+    {% block content %}{% endblock %}
+  </main>
+</div>
+<script src="/static/app.js" defer></script>
+</body>
+</html>
